@@ -1,0 +1,11 @@
+language: java
+jdk: openjdk6
+install: ''
+before_script:
+  - mkdir -p target
+  - echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?><settings><servers><server><id>sonatype-nexus-snapshots</id><username>nebhale</username><password>$NEXUS_PASSWORD</password></server><server><id>sonatype-nexus-staging</id><username>nebhale</username><password>$NEXUS_PASSWORD</password></server></servers></settings>" > target/settings.xml
+script: mvn --quiet --settings target/settings.xml -Dgpg.skip=true source:jar javadoc:jar deploy
+after_script: rm -f target/settings.xml
+env:
+  global:
+    - secure: "LM9F3yc0eZHrV2/y/PJPlTQ4oiaVkqcgl2ajlmCpbRnedqgEXvIOJdLZOfRT\n/zNQh0XTmXKIsOie1JPxu7FlMJVxWmZwxifAi11cnGXKXWkh5Q8HmaAMSMnR\nIfd/7CXu3qZ09NbLy/uzY8X8zecyDhNRgxAAo+nY34rpB5bp8Is=" # $NEXUS_PASSWORD
